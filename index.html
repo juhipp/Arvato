@@ -1,0 +1,175 @@
+<!doctype html>
+<html class="no-js" lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Arvato Testseite</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="sources/fontawesome-free-5.15.1-web/css/all.css" > 
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+<div class="content">
+  <header>
+    <div class="promo-banner desktop">
+      <div class="box">
+        <span>Lorem ipsum</span>
+        <span>Lorem ipsum !!</span>
+        <span>Lorem %% </span>
+      </div>
+    </div>
+    <div class=" top-nav">
+      <div class="container box">
+        <div class="top-nav-left "> 
+          <ul class="box top-nav-logo">
+            <li class="nav-item" data-title="Welcome"><i class="fas fa-grin-alt"></i>Logo Lores</li>
+          </ul>
+        </div>
+        <div class="top-nav-right">
+          <ul class="top-nav-list">
+            <li class="top-nav-item" data-title="LogIn" >
+              <input class="nav-input" id="login" type="text" placeholder="Email" data-title="Login">
+              <i class="fas fa-user-circle"  data-title="LogIn"></i>
+            </li>
+            <li class="top-nav-item" data-title="Suche">
+              <input class="nav-input" id="search" type="text" placeholder="Suche..." data-title="Suche">
+              <i class="fas fa-search" data-title="Suche"></i>
+            </li>
+            <li class="top-nav-item" data-title="Favoriten">
+              <span class="nav-content favorits"></span>
+              <i class="far fa-heart" data-title="Favoriten"></i>
+            </li>
+            <li class="top-nav-item" data-title="Warenkorb">
+              <span class="shoppingbasketItems" data-title="Warenkorb"></span>
+              <i class="fas fa-shopping-cart" ></i> 
+            </li>
+          </ul>
+          <span class="mobile-nav mobile-nav-icon"><i class="fas fa-bars"></i> </span>
+        </div>
+        <div class="mobile-nav-wrapper"></div>
+      </div>
+    </div>
+    <div class="main-nav container">
+      <ul class="main-nav-list">
+        <li  class="nav-item" data-title="Ladies"> Damen</li>
+        <li class="nav-item" data-title="Boys"> Herren</li>
+        <li class="nav-item" data-title="Kids">Kids </li>
+        <li class="nav-item" data-title="Unisex">For Everyone </li>
+        <li class="nav-item" data-title="SALE">Sale</li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    
+    <section class="intro-text-wrapper">
+        <p class="intro-text"><span class="intro-text-headline ">Welcome </span>- Lookout flogging bilge rat main sheet bilge water nipper fluke to go on account heave down clap of thunder. Reef sails six pounders skysail code of conduct sloop cog Yellow Jack gunwalls grog blossom starboard. 
+          Swab black jack ahoy Brethren of the Coast schooner poop deck main sheet topmast furl marooned.
+        </p>
+    </section>
+
+    <section class="products">
+      <div class="product-list-wrapper">
+        <transition name="fade">
+          <div class="loading" v-show="loading">
+            <span class="fa fa-spinner fa-spin"></span> Weitere Produkte werden geladen
+          </div>
+        </transition>
+        <ul class="product-list" id="list">
+          <li class="product-list-item box-20" v-for="product in products">
+            <div class="product-img-wrapper">
+              <img :src= product.imageUrl>
+            </div>
+            <div class="box product-description-wrapper">
+              <div class="box-50">
+                <p data-product-title="Produkt 1"><strong>{{product.name}}</strong></p>
+                <p>{{ product.description}}</p>
+                <p class="sizes">Größe(n); 
+                  <span class="box">
+                    <span class="size" v-for="item in product.sizeArr">{{item}}</span>
+                  </span>
+                </p>
+                <p>Farben:<br>
+                  <span class="box">
+                    <span v-for="item in product.colorsArr"  @mouseenter="checkcolors( item, $event)" @mouseleave="resetcolor()" class="color-field">{{item}} </span>
+                  </span>
+                </p>
+              </div>
+              <div class="box-50 box-price">
+                <p class="product-price"><strong>{{product.price}}</strong></p>
+                <span class="product-price basket" v-on:click="addToShoppingBasket (product.name, $event)"><i class="fas fa-shopping-cart"  data-title="Warenkorb"></i></span>
+              </div>
+            </div>
+          </li>
+          <li class="product-list-item box-20" v-for="item in items">
+            <div class="product-img-wrapper">
+              <img src="sources/pics/Foto-Platzhalter.png">
+            </div>
+            <div class="box">
+              <div class="box-50">
+                <p><strong>Product-name</strong></p>
+                <p>description</p>
+              </div>
+              <div class="box-50">
+                <p class="product-price"><strong>Price</strong></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shoppingbasketItems-list">
+      <p v-if="shoppingbasket.length">Ihre Produkte im Warenkorb:</p>
+      <i class="fas fa-times close-button" v-on:click="close"></i>
+      <ul>
+        <li class="product-list-item" v-for="shoppedItem in shoppingbasket">
+            {{shoppedItem}}
+        </li>
+      </ul>
+      <p v-if="!shoppingbasket.length">Ihr Warenkorb ist leer</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wrapper box container">
+        <div class="box-30">
+          <ul class="footer-list">
+            <li>Gutscheine</li>
+            <li>Newsletter</li> 
+            <li>Store suchen</li>
+            <li>Größentabelle</li>
+          </ul>
+        </div>
+        <div class="box-30">
+          <ul class="footer-list">
+            <li>Über uns</li>
+            <li>Kontakt</li> 
+            <li>Jobs</li>
+            <li>Impressum</li>
+            <li>Disclaimer</li>
+            <li>AGB</li>
+          </ul>
+        </div>
+        <div class="box-30 double">
+          <ul class="footer-list">
+            <li>Versand</li>
+            <li>Rücksendung</li> 
+            <li>FAQ</li>
+            <li class="socialmedia-icons">
+              <i class="fab fa-facebook"></i>
+              <i class="fab fa-youtube"></i>
+              <i class="fab fa-pinterest"></i>
+              <i class="fab fa-instagram"></i>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </footer>
+</div>
+  <script src="sources/js/main.js"></script>
+</body>
+</html>

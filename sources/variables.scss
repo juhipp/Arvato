@@ -1,0 +1,49 @@
+//color-variables //
+$grayblue: #375682;
+$lightblue: #05DDE8;
+$lightrustyred: #EB6A3F;
+$mainblue:  #033b8c;
+$rustyred: #B52816;
+$white:#ffffff;
+
+
+//fonts //
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700');
+
+// fontsizes
+$normalfont: 1.2em;
+$smallfont: 0.8em;
+$bigfont: 1.5em;
+
+//breakpoints
+$media-direction:       min; 
+
+$breakpoints: (
+    'default':            '',
+    'xs':                 480px,
+    's':                  667px,
+    'm':                  1024px,
+    'l':                  1280px,
+    'xl':                 1680px,
+);
+@mixin breakpoint($breakpoint,$direction: $media-direction) {
+
+    // Es wird gecheckt ob der Wert in der Sass Map vorhanden ist
+    @if map-has-key($breakpoints, $breakpoint) {
+  
+      // Ausgabe
+      @media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
+        @content;
+      }
+    }
+  
+    // Wenn ihr oben einen Wert eingetragen habt wird hier gecheckt ob ihr einen Einheit angehängt habt. Falls nicht wird px genutzt.
+    @else if unitless($breakpoint) {
+      $breakpoint: $breakpoint + 0px;
+  
+      // Ausgabe
+      @media (#{$direction}-width: $breakpoint) {
+        @content;
+      }
+    }
+  }
